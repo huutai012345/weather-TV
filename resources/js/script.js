@@ -3,22 +3,26 @@ $(document).ready(function () {
   let lat = 40.73061;
   let long = -73.935242;
 
-  let query = lat + "," + long;
+  let query = "New York";
   let number_of_days = 5;
 
-  var url =
-    "https://api.weatherstack.com/forecast?access_key=5bc82451636190abd9d7afe6fe9b20b5&query=" +
-    query +
-    "&forecast_days=" +
-    number_of_days;
+  getWeather();
 
   $("#checkWeather").click(function (e) {
     lat = $("#lat").val();
     long = $("#long").val();
+    query = lat + "," + long;
+
+    getWeather();
   });
-  getWeather();
 
   function getWeather() {
+    var url =
+      "https://api.weatherstack.com/forecast?access_key=5bc82451636190abd9d7afe6fe9b20b5&query=" +
+      query +
+      "&forecast_days=" +
+      number_of_days;
+
     $.ajax({ type: "POST", url: url, dataType: "jsonp" }).then(function (data) {
       $("#heading").text("Today's Weather " + data.location.name);
       $("#image_today").attr("src", data.current.weather_icons[0]);
